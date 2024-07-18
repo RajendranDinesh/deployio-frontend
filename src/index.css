@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --primary-color: #0E6795;
+    --secondary-color: #FFFFFF;
+    --text-color: #181818;
+    --text-accent-color: #B24020;
+    --background-color: #F7F9FB;
+
+    @media screen and (max-width: 1024px) {
+        --modal-width: 60%;
+        --modal-height: 55%;
+    }
+
+    @media screen and (max-width: 768px) {
+        --modal-width: 70%;
+        --modal-height: 70%;
+    }
+
+    @media screen and (max-width: 512px) {
+        --modal-width: 80%;
+        --modal-height: 80%;
+    }
+}
+
+.scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+    border-radius: 5px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    background: #18181820;
+    border-radius: 16px;
+}
