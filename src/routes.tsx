@@ -3,26 +3,34 @@ import { Route, Routes, Outlet, Navigate } from 'react-router-dom';
 import GhRedirect from './pages/auth/ghRedirect';
 import Home from './pages/home';
 import Login from './pages/auth/login';
+import Settings from './pages/settings';
+import Layout from './layout';
 
 function ProtectedRoute() {
-  const result = localStorage.getItem('authToken') !== null;
+  const result = localStorage.getItem('tocopass') !== null;
 
   return result ? <Outlet /> : <Navigate to="/login" />;
 }
 
 export function Logout() {
-  localStorage.removeItem('authToken');
+  localStorage.removeItem('tocopass');
   return <Navigate to="/login" />;
 }
 
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
       <Route path="/gh/cb" element={<GhRedirect />} />
       <Route path="/login" element={<Login />} />
 
-      <Route path="/" element={<ProtectedRoute />}></Route>
+      <Route path="/" element={<ProtectedRoute />}>
+        <Route path="/" element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/settings" element={<Settings />} />
+        </Route>
+      </Route>
+
+      <Route path="/logout" element={<Logout />} />
     </Routes>
   );
 }

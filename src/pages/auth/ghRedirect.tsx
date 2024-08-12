@@ -1,3 +1,4 @@
+import Spinner from '@/components/ui/spinner';
 import { Request, SetHeader } from '@/networking';
 
 import { useEffect } from 'react';
@@ -32,6 +33,7 @@ export default function GhRedirect() {
       window.location.href = '/';
     } catch (error: unknown) {
       console.log(`[Login] ${(error as Error).message}`);
+      window.location.href = '/login';
     }
   };
 
@@ -40,8 +42,8 @@ export default function GhRedirect() {
   }, [code]);
 
   return (
-    <div>
-      <h2>Loading...</h2>
+    <div className=" flex h-dvh w-dvw items-center justify-center ">
+      <Spinner isLoading />
     </div>
   );
 }
