@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 
-import ghLogo from '@/assets/svg/ghLogo.svg';
+import ghLogoWhite from '@/assets/svg/ghLogoWhite.svg';
+import ghLogoBlack from '@/assets/svg/ghLogoBlack.svg';
 import {
   Card,
   CardDescription,
@@ -27,7 +28,15 @@ function Login() {
               }`}
             >
               <Button className=" flex w-full justify-evenly ">
-                <img className=" m-2 h-7 " src={ghLogo} alt="github" /> Login
+                <img
+                  className=" m-2 h-7 "
+                  src={
+                    localStorage.getItem('theme') === 'dark'
+                      ? ghLogoBlack
+                      : ghLogoWhite
+                  }
+                  alt="github"
+                />{' '}
                 GitHub
               </Button>
             </a>

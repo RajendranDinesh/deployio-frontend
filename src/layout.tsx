@@ -12,6 +12,7 @@ import { TabsContent, TabsTrigger } from '@radix-ui/react-tabs';
 import { CircleUser, Menu, Package2 } from 'lucide-react';
 import { Button } from './components/ui/button';
 import { Outlet } from 'react-router-dom';
+import { Logout } from './routes';
 
 export default function Layout() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') === 'dark');
@@ -127,6 +128,7 @@ export default function Layout() {
                       <Button
                         variant={'ghost'}
                         className=" w-full justify-start "
+                        onClick={Logout}
                       >
                         <span className=" text-base font-normal ">Logout</span>
                       </Button>
