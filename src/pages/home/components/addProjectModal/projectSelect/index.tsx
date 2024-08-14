@@ -12,10 +12,12 @@ import { GetUserRepository } from '../controller';
 import { Repository } from '../controller';
 import Spinner from '@/components/ui/spinner';
 
-export const ProjectSelect = () => {
-  const [projects, setProjects] = useState<Repository[]>([]);
+interface Parameters {
+  setValue: (arg0: string) => void;
+}
 
-  const [value, setValue] = useState<string>('');
+export const ProjectSelect = ({ setValue }: Parameters) => {
+  const [projects, setProjects] = useState<Repository[]>([]);
 
   const GetSetRepos = async () => {
     const data = await GetUserRepository();
@@ -30,7 +32,7 @@ export const ProjectSelect = () => {
     <div className=" my-4 flex flex-col gap-2 ">
       <Label>Repository</Label>
       <Select
-        defaultValue={value || ''}
+        defaultValue={''}
         onValueChange={(val) => {
           setValue(val + '');
         }}

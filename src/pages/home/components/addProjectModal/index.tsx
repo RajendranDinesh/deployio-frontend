@@ -9,9 +9,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { DialogTrigger } from '@radix-ui/react-dialog';
-// import { ProjectSelect } from './projectSelect';
+import { ProjectSelect } from './projectSelect';
 import { useState } from 'react';
 import Control from './control';
+import { CreateNewProject } from './controller';
+import Toast from '@/components/Toast';
 
 export interface Project {
   name: string;
@@ -20,11 +22,12 @@ export interface Project {
   node_version: string;
   install_command: string;
   build_command: string;
-  github_id: number;
+  github_id: string;
 }
 
 export default function AddProjectModal() {
   const [isOpen, setOpen] = useState(false);
+  const [isRequestSent, setIsRequestSent] = useState(false);
 
   const def = {
     name: '',
@@ -33,13 +36,26 @@ export default function AddProjectModal() {
     node_version: '20.16.0',
     install_command: 'npm install',
     build_command: 'npm run build',
-    github_id: 0,
+    github_id: '0',
   };
 
   const [project, setProject] = useState<Project>(def);
 
   const setDefaults = () => {
     setProject(def);
+  };
+
+  const SendCreateRequest = () => {
+    setIsRequestSent(true);
+
+    if (project.github_id === '0') {
+      Toast('warning', <p>Select a github repository</p>);
+      setIsRequestSent(false);
+      return;
+    }
+
+    CreateNewProject(project);
+    setIsRequestSent(false);
   };
 
   return (
@@ -63,9 +79,16 @@ export default function AddProjectModal() {
           <form>
             <div className=" my-4 flex flex-col gap-2 ">
               <Label>Project Name</Label>
-              <Input />
+              <Input
+                value={project.name}
+                onChange={(event) =>
+                  setProject({ ...project, name: event.target.value })
+                }
+              />
             </div>
-            {/* <ProjectSelect /> */}
+            <ProjectSelect
+              setValue={(value) => setProject({ ...project, github_id: value })}
+            />
             <Control
               value={project.node_version}
               defaultValue={def.node_version}
@@ -109,11 +132,9 @@ export default function AddProjectModal() {
         <DialogFooter>
           <Button onClick={() => setDefaults()}>Clear</Button>
           <Button
-            onClick={() => {
-              setOpen(false);
-              console.log(project);
-            }}
+            onClick={SendCreateRequest}
             type={'submit'}
+            disabled={isRequestSent}
           >
             Next
           </Button>

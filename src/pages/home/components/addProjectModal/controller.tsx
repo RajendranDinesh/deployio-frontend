@@ -1,4 +1,6 @@
 import { Request } from '@/networking';
+import Toast from '@/components/Toast';
+import { Project } from '.';
 
 export interface Repository {
   id: string;
@@ -21,5 +23,26 @@ export async function GetUserRepository(): Promise<Repository[]> {
     return data;
   } catch (error) {
     return [];
+  }
+}
+
+export async function CreateNewProject(project: Project) {
+  try {
+    console.log(project);
+    const responseBody = await Request('POST', '/project/new', project);
+
+    if (responseBody.status != 200) {
+      throw new Error(
+        'Error while creating your project:\n' + responseBody.data,
+      );
+    }
+
+    const { data } = responseBody;
+
+    Toast('success', <p>Project Created, redirecting...</p>);
+
+    window.location.href = `/project/${data.project_id}`;
+  } catch (error) {
+    Toast('error', <p>Could Not create Project, Try again later</p>);
   }
 }
