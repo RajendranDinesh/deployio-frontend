@@ -5,6 +5,8 @@ import Home from './pages/home';
 import Login from './pages/auth/login';
 import Settings from './pages/settings';
 import Layout from './layout';
+import Project from './pages/project';
+import ProjectLayout from './projectLayout';
 
 function ProtectedRoute() {
   const result = localStorage.getItem('tocopass') !== null;
@@ -27,6 +29,10 @@ function AppRoutes() {
         <Route path="/" element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/settings" element={<Settings />} />
+        </Route>
+
+        <Route path="/project" element={<ProjectLayout />}>
+          <Route path="/project/:id" element={<Project />} />
         </Route>
       </Route>
 
