@@ -81,13 +81,29 @@ export default function Layout() {
                   value="dashboard"
                   className="text-muted-foreground transition-colors hover:text-foreground"
                 >
-                  <a href="/">Dashboard</a>
+                  <a
+                    href="/"
+                    className={`text${
+                      window.location.pathname == '/' ? '' : '-muted'
+                    }-foreground transition-colors hover:text-foreground`}
+                  >
+                    Dashboard
+                  </a>
                 </TabsTrigger>
                 <TabsTrigger
                   value="settings"
                   className="text-foreground transition-colors hover:text-foreground"
                 >
-                  <a href="settings">Settings</a>
+                  <a
+                    href="settings"
+                    className={`text${
+                      window.location.pathname.includes('/settings')
+                        ? ''
+                        : '-muted'
+                    }-foreground transition-colors hover:text-foreground`}
+                  >
+                    Settings
+                  </a>
                 </TabsTrigger>
               </TabsList>
             </SheetContent>
