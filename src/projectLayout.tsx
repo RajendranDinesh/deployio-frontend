@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { Outlet, useParams } from 'react-router-dom';
+import { TabsContent, TabsTrigger } from '@radix-ui/react-tabs';
+import { CircleUser, Menu, Package2 } from 'lucide-react';
 
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Switch } from '@/components/ui/switch';
@@ -8,10 +11,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Tabs, TabsList } from '@/components/ui/tabs';
-import { TabsContent, TabsTrigger } from '@radix-ui/react-tabs';
-import { CircleUser, Menu, Package2 } from 'lucide-react';
 import { Button } from './components/ui/button';
-import { Outlet } from 'react-router-dom';
 import { Logout } from './routes';
 
 export default function ProjectLayout() {
@@ -28,6 +28,29 @@ export default function ProjectLayout() {
     document.documentElement.classList.toggle('dark', newTheme === 'dark');
   };
 
+  const { id } = useParams();
+
+  const tabs = [
+    {
+      value: 'dashboard',
+      label: 'Project Dashboard',
+      href: `/project/${id}`,
+      isActive: window.location.pathname === `/project/${id}`,
+    },
+    {
+      value: 'build',
+      label: 'Builds',
+      href: `/project/${id}/build`,
+      isActive: window.location.pathname === `/project/${id}/build`,
+    },
+    {
+      value: 'environment',
+      label: 'Environment Variables',
+      href: `/project/${id}/env`,
+      isActive: window.location.pathname === `/project/${id}/env`,
+    },
+  ];
+
   return (
     <div className=" flex min-h-screen w-full flex-col ">
       <Tabs defaultValue="dashboard">
@@ -40,22 +63,17 @@ export default function ProjectLayout() {
               <Package2 className="h-6 w-6" />
               <span className="sr-only">deploy-io</span>
             </a>
-            <TabsTrigger
-              value="dashboard"
-              className={`text${
-                window.location.pathname === '/' ? '' : '-muted'
-              }-foreground transition-colors hover:text-foreground`}
-            >
-              <a href="/">Dashboard</a>
-            </TabsTrigger>
-            <TabsTrigger
-              value="settings"
-              className={`text${
-                window.location.pathname.includes('/settings') ? '' : '-muted'
-              }-foreground transition-colors hover:text-foreground`}
-            >
-              <a href="settings">Settings</a>
-            </TabsTrigger>
+            {tabs.map((tab, index) => (
+              <TabsTrigger
+                key={index}
+                value={tab.value}
+                className={`text${
+                  tab.isActive ? '' : '-muted'
+                }-foreground transition-colors hover:text-foreground`}
+              >
+                <a href={tab.href}>{tab.label}</a>
+              </TabsTrigger>
+            ))}
           </TabsList>
           <Sheet>
             <SheetTrigger asChild>
@@ -77,18 +95,17 @@ export default function ProjectLayout() {
                   <Package2 className="h-6 w-6" />
                   <span className="sr-only">deploy-io</span>
                 </a>
-                <TabsTrigger
-                  value="dashboard"
-                  className="text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  <a href="/">Dashboard</a>
-                </TabsTrigger>
-                <TabsTrigger
-                  value="settings"
-                  className="text-foreground transition-colors hover:text-foreground"
-                >
-                  <a href="settings">Settings</a>
-                </TabsTrigger>
+                {tabs.map((tab, index) => (
+                  <TabsTrigger
+                    key={index}
+                    value={tab.value}
+                    className={`text${
+                      tab.isActive ? '' : '-muted'
+                    }-foreground transition-colors hover:text-foreground`}
+                  >
+                    <a href={tab.href}>{tab.label}</a>
+                  </TabsTrigger>
+                ))}
               </TabsList>
             </SheetContent>
           </Sheet>

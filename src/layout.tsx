@@ -28,6 +28,21 @@ export default function Layout() {
     document.documentElement.classList.toggle('dark', newTheme === 'dark');
   };
 
+  const tabs = [
+    {
+      value: 'dashboard',
+      label: 'Dashboard',
+      href: '/',
+      isActive: window.location.pathname === '/',
+    },
+    {
+      value: 'settings',
+      label: 'Settings',
+      href: '/settings',
+      isActive: window.location.pathname.includes('/settings'),
+    },
+  ];
+
   return (
     <div className=" flex min-h-screen w-full flex-col ">
       <Tabs defaultValue="dashboard">
@@ -40,22 +55,17 @@ export default function Layout() {
               <Package2 className="h-6 w-6" />
               <span className="sr-only">deploy-io</span>
             </a>
-            <TabsTrigger
-              value="dashboard"
-              className={`text${
-                window.location.pathname === '/' ? '' : '-muted'
-              }-foreground transition-colors hover:text-foreground`}
-            >
-              <a href="/">Dashboard</a>
-            </TabsTrigger>
-            <TabsTrigger
-              value="settings"
-              className={`text${
-                window.location.pathname.includes('/settings') ? '' : '-muted'
-              }-foreground transition-colors hover:text-foreground`}
-            >
-              <a href="settings">Settings</a>
-            </TabsTrigger>
+            {tabs.map((tab, index) => (
+              <TabsTrigger
+                key={index}
+                value={tab.value}
+                className={`text${
+                  tab.isActive ? '' : '-muted'
+                }-foreground transition-colors hover:text-foreground`}
+              >
+                <a href={tab.href}>{tab.label}</a>
+              </TabsTrigger>
+            ))}
           </TabsList>
           <Sheet>
             <SheetTrigger asChild>
@@ -77,34 +87,22 @@ export default function Layout() {
                   <Package2 className="h-6 w-6" />
                   <span className="sr-only">deploy-io</span>
                 </a>
-                <TabsTrigger
-                  value="dashboard"
-                  className="text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  <a
-                    href="/"
-                    className={`text${
-                      window.location.pathname == '/' ? '' : '-muted'
-                    }-foreground transition-colors hover:text-foreground`}
+                {tabs.map((tab, index) => (
+                  <TabsTrigger
+                    key={index}
+                    value={tab.value}
+                    className="text-muted-foreground transition-colors hover:text-foreground"
                   >
-                    Dashboard
-                  </a>
-                </TabsTrigger>
-                <TabsTrigger
-                  value="settings"
-                  className="text-foreground transition-colors hover:text-foreground"
-                >
-                  <a
-                    href="settings"
-                    className={`text${
-                      window.location.pathname.includes('/settings')
-                        ? ''
-                        : '-muted'
-                    }-foreground transition-colors hover:text-foreground`}
-                  >
-                    Settings
-                  </a>
-                </TabsTrigger>
+                    <a
+                      href={tab.href}
+                      className={`text${
+                        tab.isActive ? '' : '-muted'
+                      }-foreground transition-colors hover:text-foreground`}
+                    >
+                      {tab.label}
+                    </a>
+                  </TabsTrigger>
+                ))}
               </TabsList>
             </SheetContent>
           </Sheet>

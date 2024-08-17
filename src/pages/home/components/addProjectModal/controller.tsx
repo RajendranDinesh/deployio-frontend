@@ -28,7 +28,6 @@ export async function GetUserRepository(): Promise<Repository[]> {
 
 export async function CreateNewProject(project: Project) {
   try {
-    console.log(project);
     const responseBody = await Request('POST', '/project/new', project);
 
     if (responseBody.status != 200) {

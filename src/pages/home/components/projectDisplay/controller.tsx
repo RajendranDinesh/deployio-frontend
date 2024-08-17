@@ -9,6 +9,7 @@ export interface Project {
   output_folder: string;
   node_version: string;
   directory: string;
+  is_active: boolean;
   created_at: Date;
 }
 

@@ -19,32 +19,48 @@ export default function ProjectDisplay() {
     <div className="flex flex-col flex-wrap gap-8 md:flex-row ">
       {projects.length > 0 ? (
         projects.map((project, index) => (
-          <a
-            href={`/project/${project.id}`}
-            key={index}
-            className=" min-w-96 rounded bg-muted "
-          >
-            <div className=" m-4 ">
-              <h1 className=" text-xl ">{project.name}</h1>
-              <a
-                className=" text-muted-foreground hover:underline "
-                href={
-                  import.meta.env.VITE_ENV === 'prod'
-                    ? 'https://' + project.name + '.' + window.location.hostname
-                    : 'http://' + project.name + '.' + 'localhost:3000'
-                }
-                target="_blank"
-                rel="noreferrer"
-              >
-                {project.name + '.' + window.location.hostname}
+          <div key={index} className=" rounded bg-muted md:min-w-96 ">
+            <div className=" m-4 flex justify-between ">
+              <a href={`project/${project.id}`} className=" text-xl ">
+                {project.name}
               </a>
+              {project.is_active && (
+                <a
+                  onClick={(event) => event.stopPropagation()}
+                  className=" text-muted-foreground hover:underline "
+                  href={
+                    import.meta.env.VITE_ENV === 'prod'
+                      ? 'https://' +
+                        project.name +
+                        '.' +
+                        window.location.hostname
+                      : 'http://' + project.name + '.' + 'localhost:3000'
+                  }
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {project.name + '.' + window.location.hostname}
+                </a>
+              )}
             </div>
-            <div className=" mb-2 ml-4 ">
+            <div className=" mx-4 mb-2 flex items-center justify-between ">
               <span className=" text-base ">
                 Created at {project.created_at.toString().split('T')[0]}
               </span>
+              <div className=" flex items-center gap-2 ">
+                <span className=" text-base ">Status</span>
+                {project.is_active ? (
+                  <span className=" text-lg font-medium text-green-600 ">
+                    Active
+                  </span>
+                ) : (
+                  <span className=" text-lg font-medium text-red-600 ">
+                    Down
+                  </span>
+                )}
+              </div>
             </div>
-          </a>
+          </div>
         ))
       ) : (
         <Skeleton className="h-[175px] w-[350px] rounded-xl" />

@@ -7,6 +7,8 @@ import Settings from './pages/settings';
 import Layout from './layout';
 import Project from './pages/project';
 import ProjectLayout from './projectLayout';
+import Env from './pages/env';
+import Build from './pages/build';
 
 function ProtectedRoute() {
   const result = localStorage.getItem('tocopass') !== null;
@@ -31,8 +33,10 @@ function AppRoutes() {
           <Route path="/settings" element={<Settings />} />
         </Route>
 
-        <Route path="/project" element={<ProjectLayout />}>
+        <Route path="/project/:id" element={<ProjectLayout />}>
           <Route path="/project/:id" element={<Project />} />
+          <Route path="/project/:id/build" element={<Build />} />
+          <Route path="/project/:id/env" element={<Env />} />
         </Route>
       </Route>
 
