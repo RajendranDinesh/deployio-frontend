@@ -1,5 +1,6 @@
 import Toast from '@/components/Toast';
 import { Request } from '@/networking';
+import { AxiosError } from 'axios';
 
 export interface Project {
   name: string;
@@ -38,6 +39,15 @@ export async function GetDeploymentStat(id: number) {
 
     return stats;
   } catch (error) {
+    if (error && (error as AxiosError).response?.status === 404) {
+      return {
+        commit_hash: 'somefunnyhash',
+        project_name: '',
+        is_active: false,
+        created_at: new Date(),
+      };
+    }
+
     console.log(error);
     Toast('error', <p>Check console</p>);
     return null;

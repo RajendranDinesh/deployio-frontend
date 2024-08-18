@@ -70,8 +70,9 @@ export default function ProjectLayout() {
                 className={`text${
                   tab.isActive ? '' : '-muted'
                 }-foreground transition-colors hover:text-foreground`}
+                onClick={() => (window.location.href = tab.href)}
               >
-                <a href={tab.href}>{tab.label}</a>
+                <span>{tab.label}</span>
               </TabsTrigger>
             ))}
           </TabsList>

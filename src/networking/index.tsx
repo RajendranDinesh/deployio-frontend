@@ -7,6 +7,7 @@ interface urlCollection {
 
 const BackendURL: urlCollection = {
   dev: 'http://127.0.0.1:5000/api/v1/',
+  prod: 'https://api.dinesh-pr.online/api/v1/',
 };
 
 const BASE_URL = import.meta.env.VITE_ENV
