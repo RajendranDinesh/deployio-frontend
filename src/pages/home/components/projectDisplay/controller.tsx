@@ -25,6 +25,8 @@ export async function GetUserProjects() {
 
     const projects: Project[] = data.projects;
 
+    if (projects == null) return [];
+
     return projects;
   } catch (error) {
     console.log(error);

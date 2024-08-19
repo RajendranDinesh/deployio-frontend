@@ -16,6 +16,56 @@ interface Env {
   value: string;
 }
 
+export const DeleteEnv = async (id: number, envKey: string) => {
+  try {
+    const reponse = await Request('DELETE', '/project/environments', {
+      project_id: id,
+      env_key: envKey,
+    });
+
+    if (reponse.status === 200) {
+      Toast('success', <p>Deleted the requested env key successfully</p>);
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    }
+  } catch (error) {
+    console.log(error);
+    Toast('error', <p>Check console</p>);
+  }
+};
+
+export const UpdateEnvKey = async (
+  id: number,
+  envKey: string,
+  envValue: string,
+) => {
+  try {
+    const responseBody = await Request('PUT', '/project/environments', {
+      project_id: id,
+      key: envKey,
+      value: envValue,
+    });
+
+    if (responseBody.status == 200) {
+      Toast('success', <p>Value has been updated successfully.</p>);
+      window.location.reload();
+    }
+  } catch (error) {
+    if (error && (error as AxiosError).response?.status == 404) {
+      Toast(
+        'warning',
+        <p>Such Value doesn&apos;t exists, please create a new variable</p>,
+      );
+      return;
+    }
+
+    console.log(error);
+    Toast('error', <p>Check console</p>);
+  }
+};
+
 export const GetProjectEnvKeys = async (id: number) => {
   try {
     const responseBody = await Request('GET', `/project/environments/${id}`);
@@ -47,6 +97,9 @@ export const AddEnvToProject = async (id: number, values: Env[]) => {
 
     if (responseBody.status == 200) {
       Toast('success', <p>Added Environment Variables</p>);
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
     }
   } catch (error) {
     console.log(error);
