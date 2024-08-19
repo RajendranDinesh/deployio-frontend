@@ -2,8 +2,13 @@ import Toast from '@/components/Toast';
 import { Request } from '@/networking';
 import { AxiosError } from 'axios';
 
+interface RespEnv {
+  key: string;
+  updated_at: Date;
+}
+
 export interface Envs {
-  keys: string[];
+  keys: RespEnv[];
 }
 
 interface Env {
@@ -17,7 +22,7 @@ export const GetProjectEnvKeys = async (id: number) => {
 
     const { data } = responseBody;
 
-    const keys: Envs = data.keys;
+    const keys: Envs = data;
 
     return keys;
   } catch (error) {
