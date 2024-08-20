@@ -16,20 +16,20 @@ export default function BuildTable() {
 
   const [builds, setBuilds] = useState<Build[] | null>(null);
 
-  const getSetTableContent = async () => {
-    let builds: Build[] = await GetAllBuilds(Number(id));
-
-    builds = builds.map((build) => ({
-      ...build,
-      created_at: new Date(build.created_at),
-    }));
-
-    setBuilds(builds);
-  };
-
   useEffect(() => {
+    const getSetTableContent = async () => {
+      let builds: Build[] = await GetAllBuilds(Number(id));
+
+      builds = builds.map((build) => ({
+        ...build,
+        created_at: new Date(build.created_at),
+      }));
+
+      setBuilds(builds);
+    };
+
     getSetTableContent();
-  }, []);
+  }, [id]);
 
   return (
     <div>
@@ -47,7 +47,13 @@ export default function BuildTable() {
           {builds ? (
             builds.length > 0 &&
             builds.map((build, index) => (
-              <TableRow key={index}>
+              <TableRow
+                key={index}
+                className=" hover:cursor-pointer "
+                onClick={() =>
+                  (window.location.href = `/project/${id}/build/${build.build_id}`)
+                }
+              >
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{build.commit_hash}</TableCell>
                 <TableCell>{build.build_status}</TableCell>
@@ -82,7 +88,7 @@ export default function BuildTable() {
       </Table>
       {builds && builds.length == 0 && (
         <div className=" mt-6 flex justify-center ">
-          <span>Oops. seems like you haven't created a build yet.</span>
+          <span>Oops. seems like you haven&apos;t created a build yet.</span>
         </div>
       )}
     </div>
