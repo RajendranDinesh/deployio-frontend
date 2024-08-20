@@ -93,48 +93,22 @@ export default function EnvTable() {
             ))
           ) : (
             <>
-              <TableRow>
-                <TableCell>
-                  <Skeleton className=" h-[30px] " />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className=" h-[30px] " />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className=" h-[30px] " />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className=" h-[30px] " />
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>
-                  <Skeleton className=" h-[30px] " />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className=" h-[30px] " />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className=" h-[30px] " />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className=" h-[30px] " />
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>
-                  <Skeleton className=" h-[30px] " />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className=" h-[30px] " />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className=" h-[30px] " />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className=" h-[30px] " />
-                </TableCell>
-              </TableRow>
+              {[...Array(3)].map((_, i) => (
+                <TableRow key={i}>
+                  <TableCell>
+                    <Skeleton className=" h-[30px] " />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className=" h-[30px] " />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className=" h-[30px] " />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className=" h-[30px] " />
+                  </TableCell>
+                </TableRow>
+              ))}
             </>
           )}
         </TableBody>

@@ -50,7 +50,10 @@ export const UpdateEnvKey = async (
 
     if (responseBody.status == 200) {
       Toast('success', <p>Value has been updated successfully.</p>);
-      window.location.reload();
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
     }
   } catch (error) {
     if (error && (error as AxiosError).response?.status == 404) {
