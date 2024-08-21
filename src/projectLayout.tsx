@@ -28,7 +28,7 @@ export default function ProjectLayout() {
     document.documentElement.classList.toggle('dark', newTheme === 'dark');
   };
 
-  const { id } = useParams();
+  const { id, buildId } = useParams();
 
   const tabs = [
     {
@@ -41,7 +41,9 @@ export default function ProjectLayout() {
       value: 'build',
       label: 'Builds',
       href: `/project/${id}/build`,
-      isActive: window.location.pathname === `/project/${id}/build`,
+      isActive:
+        window.location.pathname === `/project/${id}/build` ||
+        window.location.pathname === `/project/${id}/build/${buildId}`,
     },
     {
       value: 'environment',
