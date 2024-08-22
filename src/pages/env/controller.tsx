@@ -93,6 +93,11 @@ export const GetProjectEnvKeys = async (id: number) => {
 
 export const AddEnvToProject = async (id: number, values: Env[]) => {
   try {
+    if (values.length === 0) {
+      Toast('warning', <p>Please fill the form before hitting enter...</p>);
+      return;
+    }
+
     const responseBody = await Request('POST', '/project/environments', {
       project_id: id,
       environments: values,

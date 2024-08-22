@@ -67,3 +67,17 @@
     @apply bg-background text-foreground;
   }
 }
+
+.logs-scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.logs-scrollbar::-webkit-scrollbar-track {
+    border-radius: 5px;
+}
+
+.logs-scrollbar::-webkit-scrollbar-thumb {
+    background: wheat;
+    border-radius: 16px;
+    height: 30px;
+}

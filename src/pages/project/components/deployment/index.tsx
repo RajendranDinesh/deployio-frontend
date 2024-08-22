@@ -36,7 +36,7 @@ export default function Deployment() {
           onClick={refresh}
           className={` ${
             isLoading && ` animate-spin-slow `
-          } h-6 hover:cursor-pointer `}
+          } h-6 cursor-pointer `}
         />
       </h3>
       {status && status != null ? (
