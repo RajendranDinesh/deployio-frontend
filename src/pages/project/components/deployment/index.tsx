@@ -1,8 +1,25 @@
 import { RefreshCw, ExternalLink } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { DeploymentStats, GetDeploymentStat } from '../../controller';
 import { useParams } from 'react-router-dom';
+
 import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import {
+  DeactivateDeployment,
+  DeploymentStats,
+  GetDeploymentStat,
+} from '../../controller';
 
 export default function Deployment() {
   const [status, setStatus] = useState<DeploymentStats | null>();
@@ -60,7 +77,7 @@ export default function Deployment() {
                 <h4 className=" text-xl ">{status?.commit_hash}</h4>
               </div>
             </div>
-            <div>
+            <div className=" flex flex-col justify-between ">
               <div className=" flex items-center gap-4 ">
                 <span>URL</span>
                 <h4>
@@ -86,6 +103,9 @@ export default function Deployment() {
                   </a>
                 </h4>
               </div>
+              <div className=" flex flex-col ">
+                <DeactivateDialog projectId={Number(id)} />
+              </div>
             </div>
           </div>
         ) : (
@@ -97,3 +117,32 @@ export default function Deployment() {
     </div>
   );
 }
+
+const DeactivateDialog = ({ projectId }: { projectId: number }) => {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant={'secondary'}>Deactivate</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you sure ?</AlertDialogTitle>
+          <AlertDialogDescription>
+            Continuing to do so will,
+            <br />
+            delete all of you assets from our servers,
+            <br />
+            You&apos;d have to re-run the build process to create a new
+            deployment.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={() => DeactivateDeployment(projectId)}>
+            Continue
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+};

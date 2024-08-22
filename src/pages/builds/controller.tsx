@@ -36,10 +36,10 @@ export const CreateNewBuild = async (id: number) => {
         </p>,
       );
 
-      const { buildId } = responseBody.data;
+      const { build_id } = responseBody.data;
 
       setTimeout(() => {
-        window.location.href = `/project/${id}/build/${buildId}`;
+        window.location.href = `/project/${id}/build/${build_id}`;
       }, 1000);
     }
   } catch (error) {

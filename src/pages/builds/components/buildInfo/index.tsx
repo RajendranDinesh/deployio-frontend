@@ -10,6 +10,8 @@ export default function BuildInfo() {
   const [buildInfo, setBuildInfo] = useState<ResponseType | null>(null);
 
   const getSetBuild = useCallback(async () => {
+    if (!buildId) return;
+
     const data: ResponseType | null = await GetBuild(Number(buildId));
 
     if (data) {
@@ -143,7 +145,7 @@ export default function BuildInfo() {
           </div>
         </div>
 
-        <div className=" mt-4 ">
+        <div className=" mt-4 flex flex-col gap-4 ">
           <div className=" flex items-center gap-4 ">
             <h2 className=" text-2xl font-medium ">Build Logs</h2>
             <RefreshCw
@@ -155,9 +157,10 @@ export default function BuildInfo() {
           </div>
           {buildInfo != null ? (
             <div className=" logs-scrollbar flex max-h-80 flex-col gap-4 overflow-y-scroll rounded-md border border-muted-foreground/20 p-4 font-light ">
-              {buildInfo.build_logs.split('\n').map((line, index) => (
-                <div key={index}>{line}</div>
-              ))}
+              {buildInfo.build_logs &&
+                buildInfo.build_logs
+                  .split('\n')
+                  .map((line, index) => <div key={index}>{line}</div>)}
             </div>
           ) : (
             <Skeleton className=" min-h-16 min-w-full " />

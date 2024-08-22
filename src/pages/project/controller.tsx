@@ -74,3 +74,39 @@ export async function GetProjectDetails(id: number) {
     return null;
   }
 }
+
+export const DeactivateDeployment = async (projectId: number) => {
+  try {
+    const reponse = await Request('DELETE', '/deployment/deactivate', {
+      project_id: projectId,
+    });
+
+    if (reponse.status === 200) {
+      Toast('success', <p>The deployment was deactivated successfully.</p>);
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    }
+  } catch (error) {
+    console.log(error);
+    Toast('error', <p>Check console</p>);
+  }
+};
+
+export const DeleteProject = async (projectId: number) => {
+  try {
+    const reponse = await Request('DELETE', `/project/${projectId}`);
+
+    if (reponse.status === 200) {
+      Toast('success', <p>The Project was deactivated successfully.</p>);
+
+      setTimeout(() => {
+        window.location.href = `/`;
+      }, 500);
+    }
+  } catch (error) {
+    console.log(error);
+    Toast('error', <p>Check console</p>);
+  }
+};

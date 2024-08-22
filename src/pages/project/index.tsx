@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { GetProjectDetails, type Project } from './controller';
+import { DeleteProject, GetProjectDetails, type Project } from './controller';
 import { useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -8,6 +8,18 @@ import ghLogoWhite from '@/assets/svg/ghLogoWhite.svg';
 import ghLogoBlack from '@/assets/svg/ghLogoBlack.svg';
 import Configuration from './components/config';
 import Deployment from './components/deployment';
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 export default function Project() {
   const [project, setProject] = useState<Project | null>();
@@ -54,7 +66,7 @@ export default function Project() {
                     alt="github"
                   />
                 </a>
-                <Button variant={'destructive'}>Delete</Button>
+                <DeleteProjectDialog projectId={Number(id)} />
               </div>
             </div>
           ) : (
@@ -70,3 +82,31 @@ export default function Project() {
     </main>
   );
 }
+
+const DeleteProjectDialog = ({ projectId }: { projectId: number }) => {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant={'destructive'}>Delete</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you sure ?</AlertDialogTitle>
+          <AlertDialogDescription>
+            Continuing to do so will,
+            <br />
+            delete the project and associated assets from our servers.
+            <br />
+            you&apos;d have to create a project from scratch for future uses.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={() => DeleteProject(projectId)}>
+            Continue
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+};
