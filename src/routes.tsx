@@ -9,6 +9,7 @@ import Project from './pages/project';
 import ProjectLayout from './projectLayout';
 import Env from './pages/env';
 import { ViewBuilds, Build } from './pages/builds';
+import NotFound from './pages/404';
 
 function ProtectedRoute() {
   const result = localStorage.getItem('tocopass') !== null;
@@ -42,6 +43,7 @@ function AppRoutes() {
       </Route>
 
       <Route path="/logout" element={<Logout />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

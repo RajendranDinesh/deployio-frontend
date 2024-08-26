@@ -69,6 +69,22 @@ export async function GetProjectDetails(id: number) {
 
     return projects;
   } catch (error) {
+    if ((error as AxiosError).response?.status === 404) {
+      Toast(
+        'error',
+        <p>
+          The Project you are looking for doesn&apos;t exists.
+          <br />
+          Redirecting to home...
+        </p>,
+      );
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 2000);
+
+      return null;
+    }
+
     console.log(error);
     Toast('error', <p>Check console</p>);
     return null;

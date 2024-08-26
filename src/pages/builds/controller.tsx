@@ -1,5 +1,6 @@
 import Toast from '@/components/Toast';
 import { Request } from '@/networking';
+import { AxiosError } from 'axios';
 
 export interface Build {
   build_id: number;
@@ -62,6 +63,22 @@ export const GetBuild = async (id: number) => {
 
     return null;
   } catch (error) {
+    if ((error as AxiosError).response?.status === 404) {
+      Toast(
+        'error',
+        <p>
+          The build you are looking for doesn&apos;t exists.
+          <br />
+          Redirecting to home...
+        </p>,
+      );
+
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 2000);
+
+      return null;
+    }
     console.log(error);
     Toast('error', <p>Check Console</p>);
   }
