@@ -1,6 +1,8 @@
 import Toast from '@/components/Toast';
-import { Request } from '@/networking';
 import { AxiosError } from 'axios';
+
+import { Request } from '@/networking';
+import { BuildResponse } from './components/buildTable';
 
 export interface Build {
   build_id: number;
@@ -84,20 +86,36 @@ export const GetBuild = async (id: number) => {
   }
 };
 
-export const GetAllBuilds = async (id: number) => {
+export const GetAllBuilds = async (id: number, limit = 5, pageNumber = 1) => {
   try {
-    const responseBody = await Request('GET', `/build/all/${id}`);
+    const responseBody = await Request(
+      'GET',
+      `/build/all/${id}?l=${limit}&p=${pageNumber}`,
+    );
 
     if (responseBody.status == 200) {
-      const { builds } = responseBody.data;
+      const { totalPages, totalItems, currentPage } = responseBody.data;
 
-      if (builds == null) return [];
-      return builds;
+      let { builds } = responseBody.data;
+
+      if (builds == null) builds = [];
+      return { builds, totalPages, totalItems, currentPage } as BuildResponse;
     }
 
-    return [];
+    return {
+      builds: [],
+      totalPages: 0,
+      totalItems: 0,
+      currentPage: 0,
+    } as BuildResponse;
   } catch (error) {
     console.log(error);
     Toast('error', <p>Check console</p>);
+    return {
+      builds: [],
+      totalPages: 0,
+      totalItems: 0,
+      currentPage: 0,
+    } as BuildResponse;
   }
 };
